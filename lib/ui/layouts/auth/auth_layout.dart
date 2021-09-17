@@ -3,15 +3,17 @@ import 'package:admin_dashboard/ui/layouts/auth/widgets/custom_title.dart';
 import 'package:flutter/material.dart';
 
 class AuthLayout extends StatelessWidget {
-  const AuthLayout({Key? key}) : super(key: key);
+  const AuthLayout({Key? key, required this.child}) : super(key: key);
+
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        children: const [
+        children: [
           // Desktop
-          _DesktopBody(),
+          _DesktopBody(child: child),
           //Mobile
 
           //LinksBar
@@ -22,7 +24,9 @@ class AuthLayout extends StatelessWidget {
 }
 
 class _DesktopBody extends StatelessWidget {
-  const _DesktopBody({Key? key}) : super(key: key);
+  const _DesktopBody({Key? key, required this.child}) : super(key: key);
+
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +45,11 @@ class _DesktopBody extends StatelessWidget {
           height: double.infinity,
           color: Colors.black,
           child: Column(
-            children: const [
-              CustomTitle(),
-              SizedBox(height: 50),
-              
+            children: [
+              const SizedBox(height: 20),
+              const CustomTitle(),
+              const SizedBox(height: 50),
+              Expanded(child: child),
             ],
           ),
         ),
