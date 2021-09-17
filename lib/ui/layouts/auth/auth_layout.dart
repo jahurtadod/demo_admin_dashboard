@@ -13,15 +13,17 @@ class AuthLayout extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: ListView(
-        children: [
-          (size.width > 1000)
-              ? _DesktopBody(child: child)
-              : _MobileBody(child: child),
+      body: Scrollbar(
+        child: ListView(
+          children: [
+            (size.width > 1000)
+                ? _DesktopBody(child: child)
+                : _MobileBody(child: child),
 
-          //LinksBar
-          const LinksBar(),
-        ],
+            //LinksBar
+            const LinksBar(),
+          ],
+        ),
       ),
     );
   }
