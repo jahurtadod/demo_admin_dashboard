@@ -1,9 +1,15 @@
-import 'package:admin_dashboard/providers/auth_provider.dart';
-import 'package:admin_dashboard/router/router.dart';
-import 'package:admin_dashboard/services/local_storage.dart';
-import 'package:admin_dashboard/ui/layouts/auth/auth_layout.dart';
+import 'package:admin_dashboard/ui/layouts/dashboard/dashboard_layout.dart';
+import 'package:admin_dashboard/ui/layouts/splash/splash_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:admin_dashboard/router/router.dart';
+import 'package:admin_dashboard/providers/auth_provider.dart';
+
+import 'package:admin_dashboard/services/local_storage.dart';
+import 'package:admin_dashboard/services/navigation_service.dart';
+
+import 'package:admin_dashboard/ui/layouts/auth/auth_layout.dart';
 
 void main() async {
   await LocalStorage.configurePrefs();
@@ -19,6 +25,7 @@ class AppState extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
+          lazy: false,
           create: (_) => AuthProvider(),
         )
       ],
@@ -37,11 +44,21 @@ class MyApp extends StatelessWidget {
       title: 'Admin Dashboard',
       initialRoute: '/',
       onGenerateRoute: Flurorouter.router.generator,
+      navigatorKey: NavigationService.navigationKey,
       builder: (_, child) {
-        print('Token:');
-        print(LocalStorage.prefs.getString('token'));
+        final authProvider = Provider.of<AuthProvider>(context);
 
-        return AuthLayout(child: child!);
+        if (authProvider.authStatus == AuthStatus.checking) {
+          return const SplashLayout();
+        }
+
+        if (authProvider.authStatus == AuthStatus.authenticated) {
+          return DashboardLayout(child: child!);
+        } else {
+          return AuthLayout(child: child!);
+        }
+
+        // print(LocalStorage.prefs.getString('token'));
       },
       theme: ThemeData.light().copyWith(
         scrollbarTheme: const ScrollbarThemeData().copyWith(
