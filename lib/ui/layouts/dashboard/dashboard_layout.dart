@@ -1,4 +1,5 @@
 import 'package:admin_dashboard/ui/shared/sidebar.dart';
+import 'package:admin_dashboard/ui/shared/navbar.dart';
 import 'package:flutter/material.dart';
 
 class DashboardLayout extends StatelessWidget {
@@ -12,10 +13,17 @@ class DashboardLayout extends StatelessWidget {
       backgroundColor: const Color(0xffEDF1F2),
       body: Row(
         children: [
-          Sidebar(),
+          const Sidebar(),
+          Expanded(
+            child: Column(
+              children: [
+                NavBar(),
 
-          // Contenedor de la view
-          Expanded(child: child),
+                // View
+                Expanded(child: child),
+              ],
+            ),
+          )
         ],
       ),
     );
