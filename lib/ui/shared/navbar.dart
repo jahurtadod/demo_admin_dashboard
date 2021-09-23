@@ -9,6 +9,8 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Container(
       // color: Colors.red,
       width: double.infinity,
@@ -16,17 +18,20 @@ class NavBar extends StatelessWidget {
       decoration: buildBoxDecoration(),
       child: Row(
         children: [
-          // TODO: Hamburger menu
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.menu_outlined),
-          ),
+          if (size.width <= 700)
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.menu_outlined),
+            ),
+
           const SizedBox(width: 5),
 
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 250),
-            child: SearchText(),
-          ),
+          // TODO: Hamburger menu
+          if (size.width > 400)
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 250),
+              child: SearchText(),
+            ),
 
           const Spacer(),
 
