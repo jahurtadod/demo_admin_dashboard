@@ -1,3 +1,4 @@
+import 'package:admin_dashboard/providers/sidemenu_provider.dart';
 import 'package:admin_dashboard/ui/shared/widgets/navbar_avatar.dart';
 import 'package:admin_dashboard/ui/shared/widgets/notification_indicator.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class NavBar extends StatelessWidget {
         children: [
           if (size.width <= 700)
             IconButton(
-              onPressed: () {},
+              onPressed: () => SideMenuProvider.openMenu(),
               icon: const Icon(Icons.menu_outlined),
             ),
 

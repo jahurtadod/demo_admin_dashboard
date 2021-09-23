@@ -25,5 +25,8 @@ class NotificationInficator extends StatelessWidget {
     );
   }
 
-  BoxDecoration buildBoxDecoration() => BoxDecoration();
+  BoxDecoration buildBoxDecoration() => BoxDecoration(
+        color: Colors.red,
+        borderRadius: BorderRadius.circular(100),
+      );
 }
