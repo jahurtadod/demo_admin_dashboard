@@ -69,8 +69,7 @@ class Sidebar extends StatelessWidget {
           const SizedBox(height: 30),
           const TextSeparator(text: 'UI Elements'),
           MenuItem(
-            isActive:
-                sideMenuProvider.currentPage == Flurorouter.iconsRoute,
+            isActive: sideMenuProvider.currentPage == Flurorouter.iconsRoute,
             text: 'Icons',
             icon: Icons.list_alt_outlined,
             onPressed: () => navigateTo(Flurorouter.iconsRoute),
@@ -86,10 +85,11 @@ class Sidebar extends StatelessWidget {
               isActive: false,
               onPressed: () {}),
           MenuItem(
-              text: 'Blank',
-              icon: Icons.post_add_outlined,
-              isActive: false,
-              onPressed: () {}),
+            isActive: sideMenuProvider.currentPage == Flurorouter.blankRoute,
+            text: 'Blank',
+            icon: Icons.post_add_outlined,
+            onPressed: () => navigateTo(Flurorouter.blankRoute),
+          ),
           const SizedBox(height: 50),
           const TextSeparator(text: 'Exit'),
           MenuItem(
