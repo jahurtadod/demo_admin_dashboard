@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WhiteCard extends StatelessWidget {
-  const WhiteCard({Key? key, this.title, required this.child})
+  const WhiteCard({Key? key, this.title, required this.child, this.width})
       : super(key: key);
 
   final String? title;
   final Widget child;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: width,
       margin: const EdgeInsets.all(8),
       padding: const EdgeInsets.all(10),
       decoration: buildBoxDecoration(),
