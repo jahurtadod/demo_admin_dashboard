@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:admin_dashboard/router/router.dart';
-import 'package:admin_dashboard/services/local_storage.dart';
-import 'package:admin_dashboard/services/navigation_service.dart';
 import 'package:admin_dashboard/api/cafe_api.dart';
 import 'package:admin_dashboard/models/http/auth_response.dart';
+
+import 'package:admin_dashboard/router/router.dart';
+
+import 'package:admin_dashboard/services/local_storage.dart';
+import 'package:admin_dashboard/services/notificarions_service.dart';
+import 'package:admin_dashboard/services/navigation_service.dart';
 
 enum AuthStatus { checking, authenticated, notAuthenticated }
 
@@ -18,16 +21,20 @@ class AuthProvider extends ChangeNotifier {
   }
 
   login(String email, String password) {
-    // Petición HTTP
+    final data = {'correo': email, 'password': password};
 
-    _token = 'adasdasdasdas.adasdad.asdasda';
-    LocalStorage.prefs.setString('token', _token!);
+    CafeApi.post('/auth/login', data).then((json) {
+      print(json);
+      final authResponse = AuthResponse.fromMap(json);
+      user = authResponse.usuario;
 
-    authStatus = AuthStatus.authenticated;
-
-    notifyListeners();
-
-    NavigationService.replaceTo(Flurorouter.dashboardRoute);
+      authStatus = AuthStatus.authenticated;
+      LocalStorage.prefs.setString('token', authResponse.token);
+      NavigationService.replaceTo(Flurorouter.dashboardRoute);
+    }).catchError((e) {
+      print('error en: $e');
+      NotificationsService.showSnackbarError('Usuario / Password no válidos');
+    });
   }
 
   register(String email, String password, String name) {
@@ -44,6 +51,7 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
     }).catchError((e) {
       print('error en: $e');
+      NotificationsService.showSnackbarError('Usuario / Password no válidos');
     });
   }
 
