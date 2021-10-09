@@ -31,6 +31,8 @@ class AuthProvider extends ChangeNotifier {
       authStatus = AuthStatus.authenticated;
       LocalStorage.prefs.setString('token', authResponse.token);
       NavigationService.replaceTo(Flurorouter.dashboardRoute);
+      CafeApi.configureDio();
+      notifyListeners();
     }).catchError((e) {
       print('error en: $e');
       NotificationsService.showSnackbarError('Usuario / Password no válidos');
@@ -48,6 +50,8 @@ class AuthProvider extends ChangeNotifier {
       authStatus = AuthStatus.authenticated;
       LocalStorage.prefs.setString('token', authResponse.token);
       NavigationService.replaceTo(Flurorouter.dashboardRoute);
+
+      CafeApi.configureDio();
       notifyListeners();
     }).catchError((e) {
       print('error en: $e');
@@ -63,10 +67,19 @@ class AuthProvider extends ChangeNotifier {
       return false;
     }
 
-    // TODO: ir al backend y comprobar si el JWT es válido
-    await Future.delayed(const Duration(milliseconds: 1000));
-    authStatus = AuthStatus.authenticated;
-    notifyListeners();
-    return true;
+    try {
+      final resp = await CafeApi.httpGet('/auth');
+      final authResponse = AuthResponse.fromMap(resp);
+
+      user = authResponse.usuario;
+      authStatus = AuthStatus.authenticated;
+
+      return true;
+    } catch (e) {
+      print(e);
+      authStatus = AuthStatus.notAuthenticated;
+      notifyListeners();
+      return false;
+    }
   }
 }
