@@ -1,13 +1,17 @@
+import 'package:flutter/material.dart';
+
 import 'package:admin_dashboard/router/router.dart';
 import 'package:admin_dashboard/services/local_storage.dart';
 import 'package:admin_dashboard/services/navigation_service.dart';
-import 'package:flutter/material.dart';
+import 'package:admin_dashboard/api/cafe_api.dart';
+import 'package:admin_dashboard/models/http/auth_response.dart';
 
 enum AuthStatus { checking, authenticated, notAuthenticated }
 
 class AuthProvider extends ChangeNotifier {
   String? _token;
   AuthStatus authStatus = AuthStatus.checking;
+  Usuario? user;
 
   AuthProvider() {
     isAuthenticated();
@@ -24,6 +28,23 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
 
     NavigationService.replaceTo(Flurorouter.dashboardRoute);
+  }
+
+  register(String email, String password, String name) {
+    final data = {'nombre': name, 'correo': email, 'password': password};
+
+    CafeApi.post('/usuarios', data).then((json) {
+      print(json);
+      final authResponse = AuthResponse.fromMap(json);
+      user = authResponse.usuario;
+
+      authStatus = AuthStatus.authenticated;
+      LocalStorage.prefs.setString('token', authResponse.token);
+      NavigationService.replaceTo(Flurorouter.dashboardRoute);
+      notifyListeners();
+    }).catchError((e) {
+      print('error en: $e');
+    });
   }
 
   Future<bool> isAuthenticated() async {
