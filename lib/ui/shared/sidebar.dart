@@ -49,10 +49,11 @@ class Sidebar extends StatelessWidget {
             onPressed: () => navigateTo(Flurorouter.modifyRoute),
           ),
           MenuItem(
-              text: 'Categories',
-              icon: Icons.layers_outlined,
-              isActive: false,
-              onPressed: () {}),
+            text: 'Categories',
+            icon: Icons.layers_outlined,
+            isActive: false,
+            onPressed: () => navigateTo(Flurorouter.categoriesRoute),
+          ),
           MenuItem(
               text: 'Products',
               icon: Icons.dashboard_outlined,
