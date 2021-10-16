@@ -13,7 +13,7 @@ class BackgroundTwitter extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 30),
             child: Image(
-              image: AssetImage('twitter-white-logo.png'),
+              image: AssetImage('assets/twitter-white-logo.png'),
               width: 400,
             ),
           ),
@@ -24,7 +24,7 @@ class BackgroundTwitter extends StatelessWidget {
 
   BoxDecoration buildBoxDecorattion() => const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('twitter-bg.png'),
+          image: AssetImage('assets/twitter-bg.png'),
           fit: BoxFit.cover,
         ),
       );

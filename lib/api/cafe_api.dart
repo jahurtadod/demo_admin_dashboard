@@ -5,7 +5,7 @@ class CafeApi {
   static Dio _dio = Dio();
 
   static void configureDio() {
-    _dio.options.baseUrl = 'http://localhost:8080/api';
+    _dio.options.baseUrl = 'https://backendfluttercafe.herokuapp.com/api';
 
     // Configurar Headers
     _dio.options.headers = {
@@ -29,7 +29,7 @@ class CafeApi {
       final resp = await _dio.post(path, data: formData);
       return resp.data;
     } catch (e) {
-      // print(e);
+      print(e); 
       throw ('Error en el POST');
     }
   }

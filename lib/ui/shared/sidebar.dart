@@ -43,10 +43,11 @@ class Sidebar extends StatelessWidget {
             onPressed: () => navigateTo(Flurorouter.dashboardRoute),
           ),
           MenuItem(
-              text: 'Analytic',
-              icon: Icons.show_chart_outlined,
-              isActive: false,
-              onPressed: () {}),
+            text: 'Modify',
+            icon: Icons.show_chart_outlined,
+            isActive: false,
+            onPressed: () => navigateTo(Flurorouter.modifyRoute),
+          ),
           MenuItem(
               text: 'Categories',
               icon: Icons.layers_outlined,

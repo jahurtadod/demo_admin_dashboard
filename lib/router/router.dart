@@ -17,6 +17,7 @@ class Flurorouter {
   static String dashboardRoute = '/dashboard';
   static String iconsRoute = '/dashboard/icons';
   static String blankRoute = '/dashboard/blank';
+  static String modifyRoute = '/dashboard/modify';
 
   static void configureRoutes() {
     // Auth Routes
@@ -36,6 +37,9 @@ class Flurorouter {
         transitionType: TransitionType.fadeIn);
     router.define(blankRoute,
         handler: DashboardHandlers.blank,
+        transitionType: TransitionType.fadeIn);
+    router.define(modifyRoute,
+        handler: DashboardHandlers.modify,
         transitionType: TransitionType.fadeIn);
 
     // 404

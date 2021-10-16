@@ -2,23 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:admin_dashboard/api/cafe_api.dart';
-
 import 'package:admin_dashboard/router/router.dart';
+import 'package:admin_dashboard/services/local_storage.dart';
 
 import 'package:admin_dashboard/providers/sidemenu_provider.dart';
 import 'package:admin_dashboard/providers/auth_provider.dart';
 
 import 'package:admin_dashboard/services/navigation_service.dart';
 import 'package:admin_dashboard/services/notificarions_service.dart';
-import 'package:admin_dashboard/services/local_storage.dart';
 
 import 'package:admin_dashboard/ui/layouts/splash/splash_layout.dart';
 import 'package:admin_dashboard/ui/layouts/dashboard/dashboard_layout.dart';
 import 'package:admin_dashboard/ui/layouts/auth/auth_layout.dart';
 
+import 'providers/modify_provider.dart';
+
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await LocalStorage.configurePrefs();
   CafeApi.configureDio();
+  //TwilioApi.configureDio();
   Flurorouter.configureRoutes();
   runApp(const AppState());
 }
@@ -37,6 +40,10 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(
           lazy: false,
           create: (_) => SideMenuProvider(),
+        ),
+        ChangeNotifierProvider(
+          lazy: false,
+          create: (_) => ModifyProvider(),
         ),
       ],
       child: const MyApp(),

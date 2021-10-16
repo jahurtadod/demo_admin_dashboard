@@ -11,7 +11,7 @@ class CustomTitle extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset('twitter-white-logo.png', width: 50, height: 50),
+          Image.asset('assets/twitter-white-logo.png', width: 50, height: 50),
           const SizedBox(height: 20),
           FittedBox(
             fit: BoxFit.contain,
