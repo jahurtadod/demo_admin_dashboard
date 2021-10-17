@@ -17,19 +17,22 @@ class DashboarView extends StatelessWidget {
     Map<String, dynamic> decodedToken =
         JwtDecoder.decode(LocalStorage.prefs.getString('token') ?? '');
     final user = UserTwilio.fromMap(decodedToken);
-    return ListView(
-      physics: const ClampingScrollPhysics(),
-      children: [
-        Text(
-          'Dashboard View',
-          style: CustomLabels.h1,
-        ),
-        const SizedBox(height: 10),
-        WhiteCard(
-          title: user.email,
-          child: Text(user.nombre),
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      child: ListView(
+        physics: const ClampingScrollPhysics(),
+        children: [
+          Text(
+            'Dashboard View',
+            style: CustomLabels.h1,
+          ),
+          const SizedBox(height: 10),
+          WhiteCard(
+            title: user.email,
+            child: Text(user.nombre),
+          )
+        ],
+      ),
     );
   }
 }
