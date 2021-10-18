@@ -16,7 +16,7 @@ class Sidebar extends StatelessWidget {
   const Sidebar({Key? key}) : super(key: key);
 
   void navigateTo(String routeName) {
-    NavigationService.naviageTo(routeName);
+    NavigationService.replaceTo(routeName);
     SideMenuProvider.closeMenu();
   }
 
@@ -43,15 +43,16 @@ class Sidebar extends StatelessWidget {
             onPressed: () => navigateTo(Flurorouter.dashboardRoute),
           ),
           MenuItem(
+            isActive: sideMenuProvider.currentPage == Flurorouter.modifyRoute,
             text: 'Modify',
             icon: Icons.show_chart_outlined,
-            isActive: false,
             onPressed: () => navigateTo(Flurorouter.modifyRoute),
           ),
           MenuItem(
+            isActive:
+                sideMenuProvider.currentPage == Flurorouter.categoriesRoute,
             text: 'Categories',
             icon: Icons.layers_outlined,
-            isActive: false,
             onPressed: () => navigateTo(Flurorouter.categoriesRoute),
           ),
           MenuItem(
@@ -65,10 +66,11 @@ class Sidebar extends StatelessWidget {
               isActive: false,
               onPressed: () {}),
           MenuItem(
-              text: 'Customers',
-              icon: Icons.people_alt_outlined,
-              isActive: false,
-              onPressed: () {}),
+            isActive: sideMenuProvider.currentPage == Flurorouter.usersRoute,
+            text: 'Users',
+            icon: Icons.people_alt_outlined,
+            onPressed: () => navigateTo(Flurorouter.usersRoute),
+          ),
           const SizedBox(height: 30),
           const TextSeparator(text: 'UI Elements'),
           MenuItem(
@@ -98,7 +100,6 @@ class Sidebar extends StatelessWidget {
           MenuItem(
               text: 'Logout',
               icon: Icons.exit_to_app_outlined,
-              isActive: false,
               onPressed: () {
                 Provider.of<AuthProvider>(context, listen: false).logout();
               }),
