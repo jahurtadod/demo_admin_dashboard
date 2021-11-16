@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:admin_dashboard/models/user.dart';
-import 'package:admin_dashboard/router/router.dart';
 import 'package:admin_dashboard/services/navigation_service.dart';
 
 class UsersDataSource extends DataTableSource {
@@ -13,11 +12,18 @@ class UsersDataSource extends DataTableSource {
   DataRow getRow(int index) {
     final user = users[index];
 
-    const image = Image(
-      image: AssetImage('assets/no-image.jpg'),
-      width: 35,
-      height: 35,
-    );
+    final image = (user.img == null)
+        ? const Image(
+            image: AssetImage('assets/no-image.jpg'),
+            width: 35,
+            height: 35,
+          )
+        : FadeInImage.assetNetwork(
+            placeholder: 'assets/loader.gif',
+            image: user.img!,
+            width: 35,
+            height: 35,
+          );
 
     return DataRow.byIndex(
       index: index,

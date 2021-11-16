@@ -1,13 +1,17 @@
-import 'package:admin_dashboard/providers/user_form_provider.dart';
-import 'package:admin_dashboard/providers/users_provider.dart';
-import 'package:admin_dashboard/services/navigation_service.dart';
-import 'package:admin_dashboard/services/notificarions_service.dart';
-import 'package:admin_dashboard/ui/inputs/custom_inputs.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:email_validator/email_validator.dart';
+
+import 'package:admin_dashboard/providers/user_form_provider.dart';
+import 'package:admin_dashboard/providers/users_provider.dart';
+
+import 'package:admin_dashboard/services/navigation_service.dart';
+import 'package:admin_dashboard/services/notificarions_service.dart';
 
 import 'package:admin_dashboard/models/user.dart';
+
+import 'package:admin_dashboard/ui/inputs/custom_inputs.dart';
 
 import 'package:admin_dashboard/ui/cards/white_card.dart';
 import 'package:admin_dashboard/ui/labels/custom_labels.dart';
@@ -193,6 +197,11 @@ class _AvatarContainer extends StatelessWidget {
     final userFormProvider = Provider.of<UserFormProvider>(context);
     final user = userFormProvider.user!;
 
+    final image = (user.img == null)
+        ? const Image(image: AssetImage('assets/no-image.jpg'))
+        : FadeInImage.assetNetwork(
+            placeholder: 'assets/loader.gif', image: user.img!);
+
     return WhiteCard(
       child: SizedBox(
         width: double.infinity,
@@ -207,8 +216,8 @@ class _AvatarContainer extends StatelessWidget {
               height: 160,
               child: Stack(
                 children: [
-                  const ClipOval(
-                    child: Image(image: AssetImage('assets/no-image.jpg')),
+                  ClipOval(
+                    child: image,
                   ),
                   Positioned(
                     bottom: 5,
@@ -220,7 +229,28 @@ class _AvatarContainer extends StatelessWidget {
                           borderRadius: BorderRadius.circular(100),
                           border: Border.all(color: Colors.white, width: 5)),
                       child: FloatingActionButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          FilePickerResult? result = await FilePicker.platform
+                              .pickFiles(
+                                  type: FileType.custom,
+                                  allowedExtensions: ['jpg', 'jpeg', 'png']);
+
+                          if (result != null) {
+                            // PlatformFile file = result.files.first;
+                            NotificationsService.showBusyIndicator(context);
+
+                            final newUser = await userFormProvider.uploadImage(
+                                '/uploads/usuarios/${user.uid}',
+                                result.files.first.bytes!);
+
+                            Provider.of<UsersProvider>(context, listen: false)
+                                .refresUser(newUser);
+
+                            Navigator.of(context).pop();
+                          } else {
+                            // User canceled the picker
+                          }
+                        },
                         child: const Icon(Icons.camera_alt_outlined),
                         elevation: 0,
                         backgroundColor: Colors.indigo,

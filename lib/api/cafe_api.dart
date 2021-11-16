@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:admin_dashboard/services/local_storage.dart';
 import 'package:dio/dio.dart';
 
@@ -10,7 +12,7 @@ class CafeApi {
     // Configurar Headers
     _dio.options.headers = {
       'x-token':
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MTYxMzUwMDM4OGQ3YTJhMjQ0YWNjNDYiLCJpYXQiOjE2MzQ0OTkyMTYsImV4cCI6MTYzNTEwNDAxNn0.IVfchVJfnJE46Rs7YVZ3DPlI9crfaZ1YRQx5HO9qq80'
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MTYxMzUwMDM4OGQ3YTJhMjQ0YWNjNDYiLCJpYXQiOjE2MzcwMTA0NTIsImV4cCI6MTYzNzYxNTI1Mn0.raFluyjlqeYa6C0SkZEdnIHdQ3lf159XHpUwbQHbgM0'
     };
   }
 
@@ -56,4 +58,20 @@ class CafeApi {
       throw ('Error en el DELETE');
     }
   }
+
+  static Future uploadFile(String path, Uint8List bytes) async {
+    final formData = FormData.fromMap({
+      'archivo': MultipartFile.fromBytes(bytes)
+    });
+
+    try {
+      final resp = await _dio.put(path, data: formData);
+      return resp.data;
+    } on DioError catch (e) {
+      print(e);
+      throw ('Error en el PUT $e');
+    }
+  }
+
+
 }
